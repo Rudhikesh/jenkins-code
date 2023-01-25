@@ -25,10 +25,9 @@ pipeline {
             }
         }
         stage("tomcat-build") {
-            steps { 
-                withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-key', keyFileVariable: 'tomcat', usernameVariable: 'ubuntu')]) {
+            steps { withCredentials([sshUserPrivateKey(credentialsId: 'new_key', keyFileVariable: 'new_key', usernameVariable: 'ubuntu')]) {
                 sh '''
-                ssh -i ${tomcat-key} -o StrictHostKeyChecking=no ubuntu@18.183.239.236<<EOF
+                ssh -i ${new_key} -o StrictHostKeyChecking=no ubuntu@18.183.239.236<<EOF
                 sudo apt-get update -y
                 sudo apt install unzip -y
                 #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
