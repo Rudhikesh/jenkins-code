@@ -20,8 +20,7 @@ pipeline {
                 //sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
                 //sh 'unzip awscliv2.zip'
                 //sh 'sudo ./aws/install'
-                sh 'aws s3 mb s3://rrkkggbckt'
-                sh 'aws s3 cp **/*.war s3://rrkkggbckt/student-${BUILD_ID}.war'
+                sh 'aws s3 cp **/*.war s3://tomcat-bucket-2/student-${BUILD_ID}.war'
             }
         }
         stage("tomcat-build") {
@@ -33,7 +32,7 @@ pipeline {
                 #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
                 #sudo unzip awscliv2.zip
                 #sudo ./aws/install
-                aws s3 cp s3://rrkkggbckt/student-${BUILD_ID}.war .
+                aws s3 cp s3://tomcat-bucket-2/student-${BUILD_ID}.war .
                 curl -O https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.85/bin/apache-tomcat-8.5.85.tar.gz
                 sudo tar -xvf apache-tomcat-8.5.85.tar.gz -C /opt/
                 sudo sh /opt/apache-tomcat-8.5.85/bin/shutdown.sh
