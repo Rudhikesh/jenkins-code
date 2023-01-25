@@ -17,9 +17,9 @@ pipeline {
         }
         stage("build-artifacts") {
             steps { 
-                sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
-                sh 'unzip awscliv2.zip'
-                sh 'sudo ./aws/install'
+                //sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
+                //sh 'unzip awscliv2.zip'
+                //sh 'sudo ./aws/install'
                 sh 'aws s3 mb s3://rrkkggbckt'
                 sh 'aws s3 cp **/*.war s3://rrkkggbckt/student-${BUILD_ID}.war'
             }
@@ -28,12 +28,12 @@ pipeline {
             steps { 
                 withCredentials([sshUserPrivateKey(credentialsId: 'tomcat-key', keyFileVariable: 'tomcat', usernameVariable: 'ubuntu')]) {
                 sh '''
-                ssh -i ${tomcat} -o StrictHostKeyChecking=no ubuntu@13.231.239.190<<EOF
+                ssh -i ${tomcat-key} -o StrictHostKeyChecking=no ubuntu@18.183.239.236<<EOF
                 sudo apt-get update -y
                 sudo apt install unzip -y
-                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                unzip awscliv2.zip
-                sudo ./aws/install
+                #curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                #sudo unzip awscliv2.zip
+                #sudo ./aws/install
                 aws s3 cp s3://rrkkggbckt/student-${BUILD_ID}.war .
                 curl -O https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.85/bin/apache-tomcat-8.5.85.tar.gz
                 sudo tar -xvf apache-tomcat-8.5.85.tar.gz -C /opt/
